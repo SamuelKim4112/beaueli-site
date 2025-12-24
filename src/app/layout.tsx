@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Montserrat } from "next/font/google"; // Changed Libre to Montserrat for modern luxury
 import "./globals.css";
 
@@ -53,15 +53,16 @@ export const metadata: Metadata = {
   verification: {
     google: "GOOGLE-SITE-VERIFICATION-TOKEN",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
   robots: {
     index: true,
     follow: true,
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 import Script from "next/script";
