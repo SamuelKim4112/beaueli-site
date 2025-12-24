@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+/node-v20.10.0-darwin-arm64/
 /.pnp
 .pnp.js
 
