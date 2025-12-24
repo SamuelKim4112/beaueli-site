@@ -1,0 +1,13 @@
+
+.DS_Store
+.git
+.next
+node_modules
+*.log
+npm-debug.log
+.env
+.env.local
+deploy.sh
+README.md
+task.md
+walkthrough.md

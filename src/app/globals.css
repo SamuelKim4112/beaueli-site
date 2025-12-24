@@ -1,13 +1,45 @@
 @import "tailwindcss";
 
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  /* Prevents right click menu on some browsers too, but mainly drag */
+}
+
+/* Allow pointer events for images that might need clicking if wrapped in buttons, 
+   but usually pointer-events: none on img is fine if the click handler is on the parent div/button. 
+   However, to be safe for interactive elements, maybe just user-drag is enough. 
+   USER REQUEST: "file is dragged". This is definitely user-drag. 
+   pointer-events: none effectively kills all mouse interaction including drag. */
+img {
+  pointer-events: none;
+}
+
+
 @theme {
   --font-sans: var(--font-inter);
+  --font-serif: var(--font-montserrat);
+  /* Using Serif var for Headings to keep existing class consistency, or just treat it as 'Heading' font */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  
+
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
 
@@ -18,30 +50,93 @@
   --color-accent-foreground: var(--accent-foreground);
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #1a1a1a;
-  
-  /* Strong Black/Slate for primary actions */
-  --primary: #1a1a1a;
-  --primary-foreground: #ffffff;
+@layer base {
+  :root {
+    --background: 0 0% 2%;
+    /* #050505 Deep Black */
+    --foreground: 0 0% 100%;
+    /* White */
 
-  /* Soft gray for secondary backgrounds */
-  --secondary: #f4f4f5;
-  --secondary-foreground: #1a1a1a;
+    --card: 0 0% 5%;
+    /* #0d0d0d Very Dark Grey */
+    --card-foreground: 0 0% 100%;
 
-  /* Subtle gray for muted text */
-  --muted: #fafafa;
-  --muted-foreground: #71717a;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
 
-  /* Clinical Blue for trust/accents */
-  --accent: #2563eb;
-  --accent-foreground: #ffffff;
+    --primary: 46 65% 52%;
+    /* #D4AF37 Classic Gold */
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 46 65% 52%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 46 65% 52%;
+
+    --radius: 0.sm;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-[#050505] text-foreground font-sans antialiased selection:bg-[#D4AF37] selection:text-black;
+    background-image: radial-gradient(circle at 50% 0%, #111111 0%, #050505 100%);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif tracking-tight text-white;
+  }
+
+  h1 {
+    @apply tracking-tighter;
+  }
+
+  h2 {
+    @apply tracking-tight;
+  }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
+.text-gold {
+  @apply text-transparent bg-clip-text;
+  background-image: linear-gradient(to right, #D4AF37, #F3D55A, #D4AF37);
+}
+
+.bg-gold {
+  background-image: linear-gradient(135deg, #D4AF37 0%, #F59E0B 100%);
+}
+
+/* Cinematic Shadows */
+.shadow-luxury {
+  box-shadow: 0 20px 80px -20px rgba(0, 0, 0, 0.9);
+}
+
+.shadow-glow-gold {
+  box-shadow: 0 0 40px -10px rgba(212, 175, 55, 0.15);
+}
+
+/* Soft Vignette */
+.vignette-radial {
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
 }

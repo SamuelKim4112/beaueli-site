@@ -16,12 +16,6 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
-        // We don't have radix slot installed, so let's simplify for now or install it. 
-        // Actually, I'll just use a standard button to avoid extra dependency unless needed.
-        // Wait, I didn't install @radix-ui/react-slot. I'll remove Slot support for now to keep it zero-dep.
-
-        const Comp = "button"
-
         const baseStyles = "inline-flex items-center justify-center rounded-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
 
         const variants = {
@@ -32,15 +26,35 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         }
 
         const sizes = {
-            default: "h-11 px-8 py-2 text-sm", // Premium feel: slightly taller/wider
+            default: "h-11 px-8 py-2 text-sm",
             sm: "h-9 rounded-md px-3 text-xs",
             lg: "h-12 rounded-md px-8 text-base",
             icon: "h-9 w-9",
         }
 
+        const buttonClasses = cn(baseStyles, variants[variant], sizes[size], className);
+
+        if (asChild) {
+            const { children, ...restProps } = props as { children?: React.ReactNode };
+            if (React.isValidElement(children)) {
+                const child = children as React.ReactElement<any>;
+                return React.cloneElement(child, {
+                    className: cn(buttonClasses, child.props.className),
+                    ...restProps,
+                    ...child.props, // Preserve child props, allowing override if needed
+                    ref: ref ? (node: any) => {
+                        // Merge refs if needed, primitive handling
+                        if (typeof ref === 'function') ref(node);
+                        else if (ref) (ref as any).current = node;
+                        // Also call child's ref if it exists? ignoring for now for simplicity
+                    } : undefined
+                } as any);
+            }
+        }
+
         return (
-            <Comp
-                className={cn(baseStyles, variants[variant], sizes[size], className)}
+            <button
+                className={buttonClasses}
                 ref={ref}
                 {...props}
             />
