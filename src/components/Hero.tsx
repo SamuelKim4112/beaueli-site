@@ -21,11 +21,41 @@ export function Hero() {
 
     return (
         <section className="relative w-full bg-[#050505] overflow-hidden">
-            {/* Desktop: Premium Split Layout (50/50) */}
-            <div className="relative min-h-[calc(100vh-3.5rem)] w-full flex flex-col md:flex-row">
+            <div className="relative min-h-screen w-full flex items-center">
 
-                {/* Left Side: Content (Desktop 50% / Mobile Bottom) */}
-                <div className="relative w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 lg:px-24 py-16 md:py-0 bg-[#050505] order-2 md:order-1 z-10">
+                {/* Background Image Layer (Full Width) */}
+                <div className="absolute inset-0 z-0 bg-[#050505]">
+                    <AnimatePresence mode='wait'>
+                        <motion.div
+                            key={currentImageIndex}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1.2 }}
+                            className="relative w-full h-full"
+                        >
+                            <Image
+                                src={heroImages[currentImageIndex]}
+                                alt="Confident lifestyle result"
+                                fill
+                                className="object-cover object-[53%_0%] opacity-100" // Exact Surge match
+                                priority
+                                quality={100}
+                                sizes="100vw"
+                            />
+                        </motion.div>
+                    </AnimatePresence>
+
+                    {/* Gradient Overlays for Text Readability */}
+                    {/* Desktop: Strong gradient from left to ensure text legibility */}
+                    <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#050505] via-[#050505]/80 to-transparent z-10 pointer-events-none"></div>
+
+                    {/* Mobile: Bottom fade */}
+                    <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent md:hidden z-10"></div>
+                </div>
+
+                {/* Content Layer */}
+                <div className="relative z-10 w-full md:w-1/2 flex flex-col justify-center px-6 md:px-16 lg:px-32 py-16 md:py-0 h-full"> {/* Increased padding to lg:px-32 to match 128px offset */}
                     {/* Golden Glow Spot */}
                     <div className="absolute left-[-20%] top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#D4AF37]/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
 
@@ -86,38 +116,6 @@ export function Hero() {
                         </motion.div>
                     </motion.div>
                 </div>
-
-                {/* Right Side: Image (Desktop 50% / Mobile Top) */}
-                {/* REVERTED TO DARK MODE + ASPECT RATIO FIX */}
-                <div className="relative w-full md:w-1/2 aspect-[4/5] md:aspect-auto md:h-auto bg-[#111] order-1 md:order-2 overflow-hidden flex items-end justify-center">
-                    <AnimatePresence mode='wait'>
-                        <motion.div
-                            key={currentImageIndex}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 1.2 }}
-                            className="relative w-full h-full"
-                        >
-                            <Image
-                                src={heroImages[currentImageIndex]}
-                                alt="Confident lifestyle result"
-                                fill
-                                className="object-cover object-[center_top] md:object-center opacity-100"
-                                priority
-                                quality={100}
-                                sizes="(max-width: 768px) 100vw, 50vw"
-                            />
-                        </motion.div>
-                    </AnimatePresence>
-
-                    {/* Desktop Gradient: Seamless Blend from Text (Left) to Image */}
-                    <div className="hidden md:block absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-[#050505] to-transparent z-10 pointer-events-none"></div>
-
-                    {/* Mobile Gradient: Seamless Blend from Text (Bottom) to Image */}
-                    <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent md:hidden z-10"></div>
-                </div>
-
             </div>
 
             {/* Trusted Authority Marquee */}
